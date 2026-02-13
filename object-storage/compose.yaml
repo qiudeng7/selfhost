@@ -1,0 +1,29 @@
+services:
+  garage:
+    image: dxflrs/garage:v2.2.0 # 18 MB
+    container_name: garage
+    ports:
+      - 3900:3900 # s3 endpoint
+      - 3901:3901 # 集群内部通信
+      - 3902:3902 # 用于静态部署
+      - 3903:3903 # 导出 Prometheus 监控指标或进行管理操作
+    volumes:
+      - ./garage.toml:/etc/garage.toml
+      - garage-meta:/garage-meta
+      - garage-data:/garage-data
+
+  webui:
+    image: khairul169/garage-webui:1.1.0 # 9.3 MB
+    container_name: garage-webui
+    restart: unless-stopped
+    volumes:
+      - ./garage.toml:/etc/garage.toml:ro
+    ports:
+      - 3909:3909
+    environment:
+      API_BASE_URL: "http://garage:3903"
+      S3_ENDPOINT_URL: "http://garage:3900"
+
+volumes:
+  garage-meta:
+  garage-data:
