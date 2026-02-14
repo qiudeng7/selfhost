@@ -1,1 +1,3 @@
 pulumi-demo
+node_modules
+dist

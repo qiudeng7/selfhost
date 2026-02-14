@@ -1,0 +1,17 @@
+{
+  "name": "@qiudeng-selfhost/dev",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "up": "pulumi up",
+    "destroy": "pulumi destroy"
+  },
+  "dependencies": {
+    "@pulumi/pulumi": "^3.0.0",
+    "@qiudeng-selfhost/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

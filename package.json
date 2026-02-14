@@ -1,0 +1,13 @@
+{
+  "name": "qiudeng-selfhost",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "pnpm --filter @qiudeng-selfhost/core build",
+    "dev": "pnpm --filter @qiudeng-selfhost/dev up"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "packageManager": "pnpm@9.0.0"
+}
