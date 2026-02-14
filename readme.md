@@ -1,20 +1,14 @@
 # selfhost
 
-自托管仓库，遵循 infra as code。
+我的自托管应用，开发中，计划支持订阅源、git托管、obsidian同步、自动备份。
 
-## Trade-offs & Principles 设计取舍
-
-1. 使用 k8s 管理部署而不是docker compose，用来练习生产环境的部署。
-2. 在DX和折腾之间选择折腾，比如选择selfhost而不是saas，选择 obsidian 而不是 appflowy。
-
-## Structure 文件结构
-
-- deprecated/ 暂时不开启
-- feed/ 订阅源相关, 自托管 folo + rsshub
-- object-storage/ 对象存储, 用于 obsidian 同步、多仓库部署。
-
+1. 为什么不用 docker compose
+   1. 因为想练习使用k8s，而且容器多了用compose可读性很差
+2. 为什么用 kind 而不是 k3s
+   1. 因为不知道为什么我的wsl安装k3s失败，暂时先用kind顶替，后续会封装k8s的部署。
 
 ## todo 待办
 
 1. 需要数据备份
-2. 需要转k3s
+2. 通过 pulumi 封装manifests，暴露出配置接口
+3. 自动部署自动删除仓库中不存在的资源
