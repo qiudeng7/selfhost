@@ -4,7 +4,10 @@
   "type": "module",
   "scripts": {
     "up": "pulumi up",
-    "destroy": "pulumi destroy"
+    "destroy": "pulumi destroy",
+    "cli": "tsx cli.ts",
+    "cluster:create": "kind create cluster --config ./config/kind.yaml --name selfhost-dev",
+    "cluster:delete": "kind delete clusters selfhost-dev"
   },
   "dependencies": {
     "@pulumi/pulumi": "^3.0.0",
@@ -12,6 +15,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "tsx": "^4.19.0",
     "typescript": "^5.0.0"
   }
 }

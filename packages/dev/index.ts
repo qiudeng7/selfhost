@@ -1,10 +1,21 @@
 import * as fs from "fs";
 import * as path from "path";
-import { GarageComponent } from "@qiudeng-selfhost/core";
+import { GarageComponent, TraefikComponent } from "@qiudeng-selfhost/core";
 
 // 读取 garage.toml 配置
 const garageConfigPath = path.join(__dirname, "config", "garage.toml");
 const garageConfigToml = fs.readFileSync(garageConfigPath, "utf-8");
+
+// 创建 Traefik 组件
+export const traefik = new TraefikComponent("traefik-dev", {
+  namespace: "kube-system",
+  hostNetworkEnabled: true,
+  dnsPolicy: "ClusterFirstWithHostNet",
+  serviceType: "ClusterIP",
+  nodeSelector: {
+    "ingress-ready": "true",
+  },
+});
 
 // 创建 Garage 组件
 export const garage = new GarageComponent("garage-dev", {
@@ -24,4 +35,5 @@ export const garage = new GarageComponent("garage-dev", {
 // 导出 stack outputs
 export const garageServiceName = garage.service.metadata.name;
 export const garageNamespace = garage.namespace.metadata.name;
+export const traefikNamespace = traefik.namespace.metadata.name;
 

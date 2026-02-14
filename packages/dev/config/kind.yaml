@@ -1,0 +1,21 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: selfhost-dev
+nodes:
+- role: control-plane
+  image: kindest/node:v1.29.0
+  # 挂载端口供 traefik hostNetwork 使用
+  extraPortMappings:
+  - containerPort: 80
+    hostPort: 8080
+    protocol: TCP
+  - containerPort: 443
+    hostPort: 8443
+    protocol: TCP
+  # 给节点打上 ingress-ready 标签供 traefik nodeSelector 使用
+  kubeadmConfigPatches:
+  - |
+    kind: InitConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: "ingress-ready=true"
