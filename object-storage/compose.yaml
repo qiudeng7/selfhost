@@ -6,7 +6,7 @@ services:
       - 3900:3900 # s3 endpoint
       - 3901:3901 # 集群内部通信
       - 3902:3902 # 用于静态部署
-      - 3903:3903 # 导出 Prometheus 监控指标或进行管理操作
+      - 3903:3903 # 导出 Prometheus metric API和admin API
     volumes:
       - ./garage.toml:/etc/garage.toml
       - garage-meta:/garage-meta
