@@ -1,12 +1,12 @@
 import * as fs from "fs";
 import * as path from "path";
-import { GarageComponent, TraefikComponent } from "@qiudeng-selfhost/core";
+import { GarageComponent, TraefikComponent, IngressComponent } from "@qiudeng-selfhost/core";
 
 // 读取 garage.toml 配置
 const garageConfigPath = path.join(__dirname, "config", "garage.toml");
 const garageConfigToml = fs.readFileSync(garageConfigPath, "utf-8");
 
-// 创建 Traefik 组件
+// 1. traefik ingress
 export const traefik = new TraefikComponent("traefik-dev", {
   namespace: "kube-system",
   hostNetworkEnabled: true,
@@ -17,23 +17,27 @@ export const traefik = new TraefikComponent("traefik-dev", {
   },
 });
 
-// 创建 Garage 组件
+
+// 2. garage
+export const garageNamespace = "garage"
+
 export const garage = new GarageComponent("garage-dev", {
-  namespace: "garage",
+  namespace: garageNamespace,
   replicaCount: 1,
   configToml: garageConfigToml,
   storageSize: "10G",
   image: "dxflrs/garage:v2.2.0",
-  nodePorts: {
-    s3: 30390,
-    rpc: 30391,
-    web: 30392,
-    admin: 30393,
-  },
 });
 
-// 导出 stack outputs
-export const garageServiceName = garage.service.metadata.name;
-export const garageNamespace = garage.namespace.metadata.name;
-export const traefikNamespace = traefik.namespace.metadata.name;
-
+export const garageIngress = new IngressComponent("garage-s3-ingress", {
+  namespace: garageNamespace,
+  className: "traefik",
+  rules: [
+    {
+      host: "s3.localhost",
+      serviceNamespace: "garage",
+      serviceName: "garage",
+      servicePort: 3900,
+    },
+  ],
+});

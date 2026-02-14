@@ -7,12 +7,6 @@ export interface GarageConfig {
   configToml: string;
   storageSize: string;
   image?: string;
-  nodePorts: {
-    s3: number;
-    rpc: number;
-    web: number;
-    admin: number;
-  };
 }
 
 export interface GarageOutputs {
@@ -170,15 +164,15 @@ export class GarageComponent extends ComponentResource implements GarageOutputs 
         namespace: ns,
       },
       spec: {
-        type: "NodePort",
+        type: "ClusterIP",
         selector: {
           app: "garage",
         },
         ports: [
-          { port: 3900, targetPort: 3900, name: "s3-endpoint", protocol: "TCP", nodePort: config.nodePorts.s3 },
-          { port: 3901, targetPort: 3901, name: "rpc", protocol: "TCP", nodePort: config.nodePorts.rpc },
-          { port: 3902, targetPort: 3902, name: "s3-web", protocol: "TCP", nodePort: config.nodePorts.web },
-          { port: 3903, targetPort: 3903, name: "admin", protocol: "TCP", nodePort: config.nodePorts.admin },
+          { port: 3900, targetPort: 3900, name: "s3-endpoint", protocol: "TCP" },
+          { port: 3901, targetPort: 3901, name: "rpc", protocol: "TCP" },
+          { port: 3902, targetPort: 3902, name: "s3-web", protocol: "TCP" },
+          { port: 3903, targetPort: 3903, name: "admin", protocol: "TCP" },
         ],
       },
     }, { ...opts, parent: this });
