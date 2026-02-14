@@ -1,0 +1,40 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: garage-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    # S3 API 访问
+    - host: garage-endpoint.selfhost.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: garage
+                port:
+                  number: 3900
+    # WebUI 访问
+    - host: garage.selfhost.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: garage-webui
+                port:
+                  number: 3909
+    # Admin API 访问
+    - host: garage-admin.selfhost.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: garage
+                port:
+                  number: 3903

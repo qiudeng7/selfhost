@@ -1,0 +1,29 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      # s3 endpoint
+      - containerPort: 30390
+        hostPort: 30390
+        protocol: TCP
+      
+      # s3 rpc
+      - containerPort: 30391
+        hostPort: 30391
+        protocol: TCP
+      
+      # s3 web
+      - containerPort: 30392
+        hostPort: 30392
+        protocol: TCP
+      
+      # s3 admin api
+      - containerPort: 30393
+        hostPort: 30393
+        protocol: TCP
+      
+      # s3 webui
+      - containerPort: 30399
+        hostPort: 30399
+        protocol: TCP
