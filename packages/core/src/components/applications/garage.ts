@@ -7,6 +7,7 @@ export interface GarageConfig {
   configToml: string;
   storageSize: string;
   image?: string;
+  initScript?: string;
 }
 
 export interface GarageOutputs {
@@ -45,6 +46,7 @@ export class GarageComponent extends ComponentResource implements GarageOutputs 
       },
       data: {
         "garage.toml": config.configToml,
+        ...(config.initScript ? { "init.sh": config.initScript } : {}),
       },
     }, { ...opts, parent: this });
 
@@ -112,6 +114,12 @@ export class GarageComponent extends ComponentResource implements GarageOutputs 
                   name: "garage-config",
                 },
               },
+              ...(config.initScript ? [{
+                name: "scripts",
+                configMap: {
+                  name: "garage-config",
+                },
+              }] : []),
               {
                 name: "garage-meta",
                 persistentVolumeClaim: {
@@ -129,6 +137,7 @@ export class GarageComponent extends ComponentResource implements GarageOutputs 
               {
                 name: "garage",
                 image: config.image || "dxflrs/garage:v2.2.0",
+                command: config.initScript ? ["/bin/sh", "/scripts/init.sh"] : undefined,
                 ports: [
                   { containerPort: 3900, name: "s3-endpoint" },
                   { containerPort: 3901, name: "rpc" },
@@ -141,6 +150,11 @@ export class GarageComponent extends ComponentResource implements GarageOutputs 
                     mountPath: "/etc/garage.toml",
                     subPath: "garage.toml",
                   },
+                  ...(config.initScript ? [{
+                    name: "scripts",
+                    mountPath: "/scripts/init.sh",
+                    subPath: "init.sh",
+                  }] : []),
                   {
                     name: "garage-meta",
                     mountPath: "/garage-meta",

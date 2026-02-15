@@ -1,10 +1,14 @@
 import * as fs from "fs";
 import * as path from "path";
-import { GarageComponent, TraefikComponent, IngressComponent, GarageInitJob } from "@qiudeng-selfhost/core";
+import { GarageComponent, TraefikComponent, IngressComponent } from "@qiudeng-selfhost/core";
 
 // 读取 garage.toml 配置
 const garageConfigPath = path.join(__dirname, "config", "garage.toml");
 const garageConfigToml = fs.readFileSync(garageConfigPath, "utf-8");
+
+// 读取 garage 初始化脚本
+const garageInitScriptPath = path.join(__dirname, "config", "init.sh");
+const garageInitScript = fs.readFileSync(garageInitScriptPath, "utf-8");
 
 // 1. traefik ingress
 export const traefik = new TraefikComponent("traefik-dev", {
@@ -27,6 +31,7 @@ export const garage = new GarageComponent("garage-dev", {
   configToml: garageConfigToml,
   storageSize: "10G",
   image: "dxflrs/garage:v2.2.0",
+  initScript: garageInitScript,
 });
 
 export const garageIngress = new IngressComponent("garage-s3-ingress", {
@@ -41,11 +46,3 @@ export const garageIngress = new IngressComponent("garage-s3-ingress", {
     },
   ],
 });
-
-// 3. garage init job - create initial bucket
-export const garageInitJob = new GarageInitJob("garage-init-bucket", {
-  namespace: garageNamespace,
-  image: "dxflrs/garage:v2.2.0",
-  commands: ["garage-cli"],
-  args: ["bucket", "create", "my-bucket"],
-}, { dependsOn: [garage.deployment] });
