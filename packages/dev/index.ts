@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { GarageComponent, TraefikComponent, IngressComponent } from "@qiudeng-selfhost/core";
+import { GarageComponent, TraefikComponent, IngressComponent, GarageInitJob } from "@qiudeng-selfhost/core";
 
 // 读取 garage.toml 配置
 const garageConfigPath = path.join(__dirname, "config", "garage.toml");
@@ -41,3 +41,11 @@ export const garageIngress = new IngressComponent("garage-s3-ingress", {
     },
   ],
 });
+
+// 3. garage init job - create initial bucket
+export const garageInitJob = new GarageInitJob("garage-init-bucket", {
+  namespace: garageNamespace,
+  image: "dxflrs/garage:v2.2.0",
+  commands: ["garage-cli"],
+  args: ["bucket", "create", "my-bucket"],
+}, { dependsOn: [garage.deployment] });

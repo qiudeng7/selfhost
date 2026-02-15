@@ -22,7 +22,7 @@ export class IngressComponent extends ComponentResource {
     config: IngressConfig,
     opts?: ComponentResourceOptions,
   ) {
-    super("selfhost:applications:Ingress", name, {}, opts);
+    super("selfhost:networking:Ingress", name, {}, opts);
 
     const ns = config.namespace || "default";
 
