@@ -1,0 +1,18 @@
+# Selfhost 服务主配置
+# 使用 docker compose up 启动所有服务
+
+include:
+  # 基础设施服务
+  - services/infra/postgres/compose.yaml
+  - services/infra/object-storage/compose.yaml
+  - services/gateway/compose.yaml
+  # Feed 业务服务
+  - services/feed/rsshub/compose.yaml
+  - services/feed/miniflux/compose.yaml
+  - services/feed/nextflux/compose.yaml
+
+# 统一网络配置
+networks:
+  selfhost:
+    driver: bridge
+    name: selfhost

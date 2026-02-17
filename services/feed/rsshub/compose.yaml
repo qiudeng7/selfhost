@@ -1,0 +1,24 @@
+# RSSHub 服务
+services:
+  rsshub:
+    image: diygod/rsshub:latest
+    container_name: rsshub
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PUPPETEER_WS_ENDPOINT: ws://browserless:3000
+      GITHUB_ACCESS_TOKEN: ${GITHUB_ACCESS_TOKEN:-}
+    networks:
+      - selfhost
+
+  browserless:
+    image: browserless/chrome
+    container_name: browserless
+    restart: unless-stopped
+    # 禁止生成core dump
+    ulimits:
+      core:
+        hard: 0
+        soft: 0
+    networks:
+      - selfhost
