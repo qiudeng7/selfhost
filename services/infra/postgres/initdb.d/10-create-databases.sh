@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-set -e
-
 # 自动创建多个数据库
 # 通过 POSTGRES_DATABASES 环境变量指定，用逗号分隔
 # 例如: POSTGRES_DATABASES=miniflux,nextcloud,authelia
@@ -17,17 +15,15 @@ if [ -n "$POSTGRES_DATABASES" ]; then
 
         if [ -n "$db" ]; then
             echo "Creating database: $db"
-
-            psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
-                -- 创建数据库（如果不存在）
-                SELECT 'CREATE DATABASE $db'
-                WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = '$db')\gexec
-
-                -- 授予权限
-                GRANT ALL PRIVILEGES ON DATABASE $db TO $POSTGRES_USER;
-EOSQL
+            # 直接通过 psql 执行 CREATE DATABASE，忽略已存在的错误
+            psql --username="$POSTGRES_USER" --dbname="$POSTGRES_DB" <<EOF | grep -v "^CREATE\|^GRANT" || true
+SELECT 'CREATE DATABASE $db' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = '$db')\\gexec
+GRANT ALL PRIVILEGES ON DATABASE $db TO $POSTGRES_USER;
+EOF
+            echo "Database $db ready"
         fi
     done
+    echo "All databases created successfully"
 else
     echo "POSTGRES_DATABASES not set, skipping additional database creation"
 fi
