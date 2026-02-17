@@ -1,3 +1,0 @@
-docmost.selfhost.cc:80 {
-    reverse_proxy docmost:3000
-}
