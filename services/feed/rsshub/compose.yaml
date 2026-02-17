@@ -22,3 +22,8 @@ services:
         soft: 0
     networks:
       - selfhost
+
+networks:
+  selfhost:
+    external: true
+    name: selfhost

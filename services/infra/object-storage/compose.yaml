@@ -33,3 +33,8 @@ services:
 volumes:
   garage-meta:
   garage-data:
+
+networks:
+  selfhost:
+    external: true
+    name: selfhost

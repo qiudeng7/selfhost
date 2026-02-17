@@ -12,3 +12,8 @@ services:
       - ADMIN_PASSWORD=${MINIFLUX_ADMIN_PASSWORD}
     networks:
       - selfhost
+
+networks:
+  selfhost:
+    external: true
+    name: selfhost
