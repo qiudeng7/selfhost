@@ -4,11 +4,11 @@ services:
     image: dxflrs/garage:v2.2.0 # 18 MB
     container_name: garage
     restart: always
-    ports:
-      - 3900:3900 # s3 endpoint
-      - 3901:3901 # 集群内部通信
-      - 3902:3902 # 用于静态部署
-      - 3903:3903 # 导出 Prometheus metric API和admin API
+    # ports:
+    #   - 3900:3900 # s3 endpoint
+    #   - 3901:3901 # 集群内部通信
+    #   - 3902:3902 # 用于静态部署
+    #   - 3903:3903 # 导出 Prometheus metric API和admin API
     volumes:
       - ./garage.toml:/etc/garage.toml
       - garage-meta:/garage-meta
@@ -22,8 +22,8 @@ services:
     restart: always
     volumes:
       - ./garage.toml:/etc/garage.toml:ro
-    ports:
-      - 3909:3909
+    # ports:
+    #   - 3909:3909
     environment:
       API_BASE_URL: "http://garage:3903"
       S3_ENDPOINT_URL: "http://garage:3900"
