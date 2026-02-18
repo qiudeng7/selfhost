@@ -1,12 +1,20 @@
 # selfhost
 
-我的自托管应用，开发中，计划支持订阅源、git托管、obsidian同步、自动备份。
+我的自托管应用，开发中。
 
-## 进度
+## 快速开始
 
-目前可以通过 `docker compose down -v && docker compose up -d` 一键删除数据卷和重启全部服务。
+```bash
+# 复制env文件并编辑，这些env将会替换compose文件中的变量
+cp .env.example .env
 
-设置hosts来访问服务:
+# 启动全部服务
+docker compose up -d
+
+# 删除全部服务及数据卷: docker compose down -v
+```
+
+设置 hosts 来访问服务(如果你想修改hosts，记得同时也要修改nginx配置):
 ```hosts
 127.0.0.1 rsshub.selfhost.local
 127.0.0.1 miniflux.selfhost.local
@@ -18,13 +26,29 @@
 127.0.0.1 garage-ui.selfhost.local
 ```
 
-接下来:
+### feed
+
+feed总体上包括如下三个部分，使用之前必须配置.env中的 MINIFLUX_ADMIN_USERNAME 和 MINIFLUX_ADMIN_PASSWORD。
+
+1. 访问原始的miniflux，能够聚合订阅源: http://miniflux.selfhost.local 
+2. 这是miniflux的一个现代化前端界面: http://nextflux.selfhost.local
+3. 访问rsshub，这是一个强大的订阅源: http://rsshub.selfhost.local
+   1. 在miniflux中订阅rsshub需要使用 `rsshub:1200` 作为地址，他们通过compose中的selfhost网络直接访问。
+   2. rsshub抓取社交平台内容有许多风控问题，需要配置自己的账号信息，参考rsshub的[配置文档](https://docs.rsshub.app/zh/deploy/config#route-specific-configurations)
+
+
+### 基建设施
+
+目前基建设施包括 garage 对象存储和postgres数据库。garage 目前用于 obsidian 数据同步、obsidian 页面发布，postgres 暂时用于存储 miniflux 的数据。
+
+1. 访问 garage 对象存储的现代化前端界面 : http://garage-ui.selfhost.local
+2. 访问 garage 的对象存储 API : http://s3.selfhost.local
+3. 通过 admin API 访问garage : http://garage-admin.selfhost.local
+4. 访问 garage 上的静态部署页面 : http://garage-web.selfhost.local
+
+
+## Todo
+
 1. gitea
 2. 数据备份
 3. 监控资源占用
-
-## garage 对象存储
-
-对象存储用于：
-1. obsidian 同步
-2. 网站静态部署
