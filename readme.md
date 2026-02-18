@@ -18,12 +18,9 @@
 127.0.0.1 garage-ui.selfhost.local
 ```
 
-接下来：
-1. 自动设置 hosts
-2. 收集metrics
-3. 声明订阅源
-4. 创建 homepage
-
+接下来:
+1. gitea
+2. 数据备份
 
 ## garage 对象存储
 

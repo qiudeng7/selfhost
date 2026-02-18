@@ -3,7 +3,7 @@ services:
   rsshub:
     image: diygod/rsshub:latest
     container_name: rsshub
-    restart: unless-stopped
+    restart: always
     environment:
       NODE_ENV: production
       PUPPETEER_WS_ENDPOINT: ws://browserless:3000
@@ -14,7 +14,7 @@ services:
   browserless:
     image: browserless/chrome
     container_name: browserless
-    restart: unless-stopped
+    restart: always
     # 禁止生成core dump
     ulimits:
       core:

@@ -3,7 +3,7 @@ services:
   nextflux:
     image: electh/nextflux
     container_name: nextflux
-    restart: unless-stopped
+    restart: always
     networks:
       - selfhost
 
