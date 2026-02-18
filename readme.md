@@ -39,12 +39,25 @@ feed总体上包括如下三个部分，使用之前必须配置.env中的 MINIF
 
 ### 基建设施
 
-目前基建设施包括 garage 对象存储和postgres数据库。garage 目前用于 obsidian 数据同步、obsidian 页面发布，postgres 暂时用于存储 miniflux 的数据。
+目前基建设施包括 garage 对象存储和postgres数据库。
+
+garage 目前用于 obsidian 数据同步、obsidian 页面发布、gitea 代码库。
+
+postgres 暂时用于存储 miniflux 和 gitea的用户数据。
+
+#### garage 对象存储
+
+使用 garage 之前，哪怕是单节点garage也需要先分配集群布局，否则 garage-ui 中 status 会显示为 unhealthy。可以在 garage-ui 中对节点进行 assign，最后 apply assignment，即可开始使用存储桶。
 
 1. 访问 garage 对象存储的现代化前端界面 : http://garage-ui.selfhost.local
 2. 访问 garage 的对象存储 API : http://s3.selfhost.local
 3. 通过 admin API 访问garage : http://garage-admin.selfhost.local
 4. 访问 garage 上的静态部署页面 : http://garage-web.selfhost.local
+
+
+#### postgres
+
+我对 postgres:18 镜像稍做了一些修改，编辑.env中的POSTGRES_DATABASES，值为逗号分隔的数据库名，比如`miniflux,gitea`，每次重启服务都会尝试创建这些数据库。
 
 
 ## Todo
