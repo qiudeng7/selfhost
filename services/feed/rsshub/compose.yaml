@@ -8,6 +8,7 @@ services:
       NODE_ENV: production
       PUPPETEER_WS_ENDPOINT: ws://browserless:3000
       GITHUB_ACCESS_TOKEN: ${GITHUB_ACCESS_TOKEN:-}
+      BILIBILI_COOKIE_88660623: ${BILIBILI_COOKIE_88660623}
     networks:
       - selfhost
 
