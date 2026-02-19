@@ -62,6 +62,6 @@ postgres 暂时用于存储 miniflux 和 gitea 的用户数据。
 
 ## Todo
 
-1. gitea
-2. 数据备份
-3. 监控资源占用
+1. 部署 gitea
+2. 自动备份数据卷
+3. 部署一个 agent
