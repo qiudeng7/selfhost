@@ -39,11 +39,13 @@ feed总体上包括如下三个部分，使用之前必须配置.env中的 MINIF
 
 ### 基建设施
 
-目前基建设施包括 garage 对象存储和postgres数据库。
+目前基建设施包括
 
-garage 目前用于 obsidian 数据同步、obsidian 页面发布、gitea 代码库。
+1. garage 对象存储，目前用于 obsidian 数据同步、obsidian 页面发布、gitea 代码库。
 
-postgres 暂时用于存储 miniflux 和 gitea 的用户数据。
+2. postgres 数据库，暂时用于存储 miniflux 的数据
+
+3. couchdb 数据库，用于 obsidian 同步数据。
 
 #### garage 对象存储
 
@@ -58,6 +60,10 @@ postgres 暂时用于存储 miniflux 和 gitea 的用户数据。
 #### postgres
 
 我对 postgres:18 镜像稍做了一些修改，编辑.env中的POSTGRES_DATABASES，值为逗号分隔的数据库名，比如`miniflux,gitea`，每次重启服务都会尝试创建这些数据库。
+
+#### couchdb
+
+通过本地端口 localhost:5984 直接暴露，不通过 gateway 代理。
 
 
 ## Todo

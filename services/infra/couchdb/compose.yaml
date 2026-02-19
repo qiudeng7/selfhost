@@ -1,0 +1,24 @@
+# CouchDB 数据库服务
+# 用于 Obsidian LiveSync 同步
+services:
+  couchdb:
+    image: couchdb:3
+    container_name: couchdb
+    restart: unless-stopped
+    environment:
+      - COUCHDB_USER=${COUCHDB_USER}
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+    ports:
+      - "5984:5984"
+    volumes:
+      - couchdb-data:/opt/couchdb/data
+    networks:
+      - selfhost
+
+volumes:
+  couchdb-data:
+
+networks:
+  selfhost:
+    external: true
+    name: selfhost

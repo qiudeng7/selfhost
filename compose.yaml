@@ -3,6 +3,7 @@
 
 include:
   # 基础设施服务
+  - services/infra/couchdb/compose.yaml
   - services/infra/postgres/compose.yaml
   - services/infra/object-storage/compose.yaml
   - services/gateway/compose.yaml
