@@ -43,7 +43,7 @@ feed总体上包括如下三个部分，使用之前必须配置.env中的 MINIF
 
 garage 目前用于 obsidian 数据同步、obsidian 页面发布、gitea 代码库。
 
-postgres 暂时用于存储 miniflux 和 gitea的用户数据。
+postgres 暂时用于存储 miniflux 和 gitea 的用户数据。
 
 #### garage 对象存储
 
