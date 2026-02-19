@@ -24,6 +24,8 @@ docker compose up -d
 127.0.0.1 garage-web.selfhost.local
 127.0.0.1 garage-admin.selfhost.local
 127.0.0.1 garage-ui.selfhost.local
+
+127.0.0.1 gitea.selfhost.local
 ```
 
 具体每个服务的配置和使用方法见下说明
