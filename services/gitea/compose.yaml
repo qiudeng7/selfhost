@@ -1,0 +1,51 @@
+# Gitea Git 服务
+# 使用 PostgreSQL 作为数据库
+services:
+  gitea:
+    image: docker.gitea.com/gitea:1
+    container_name: gitea
+    restart: unless-stopped
+    env_file:
+      - ../../.env
+    environment:
+      # 数据库配置
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=postgres:5432
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=${POSTGRES_USER}
+      - GITEA__database__PASSWD=${POSTGRES_PASSWORD}
+
+      # 服务器配置
+      - GITEA__server__DOMAIN=gitea.selfhost.local
+      - GITEA__server__ROOT_URL=http://gitea.selfhost.local/
+      - GITEA__server__SSH_DOMAIN=gitea.selfhost.local
+      - GITEA__server__SSH_PORT=222
+      - GITEA__server__SSH_LISTEN_PORT=22
+
+      # 禁用注册，只允许管理员创建用户
+      - GITEA__service__DISABLE_REGISTRATION=true
+
+      # 会话配置（使用文件存储）
+      - GITEA__session__PROVIDER=file
+
+      # 附件存储（使用本地存储）
+      - GITEA__attachments__STORAGE_TYPE=local
+
+      # Avatar 存储类型
+      - GITEA__picture__AVATAR_STORAGE_TYPE=local
+    volumes:
+      - gitea-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "222:22"
+    networks:
+      - selfhost
+
+volumes:
+  gitea-data:
+
+networks:
+  selfhost:
+    external: true
+    name: selfhost

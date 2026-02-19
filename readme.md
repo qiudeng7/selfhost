@@ -2,7 +2,7 @@
 
 我的自托管应用，开发中。
 
-## 快速开始
+## 启动服务
 
 ```bash
 # 复制env文件并编辑，这些env将会替换compose文件中的变量
@@ -26,7 +26,9 @@ docker compose up -d
 127.0.0.1 garage-ui.selfhost.local
 ```
 
-### feed
+具体每个服务的配置和使用方法见下说明
+
+## feed
 
 feed总体上包括如下三个部分，使用之前必须配置.env中的 MINIFLUX_ADMIN_USERNAME 和 MINIFLUX_ADMIN_PASSWORD。
 
@@ -36,8 +38,11 @@ feed总体上包括如下三个部分，使用之前必须配置.env中的 MINIF
    1. 在miniflux中订阅rsshub需要使用 `rsshub:1200` 作为地址，他们通过compose中的selfhost网络直接访问。
    2. rsshub抓取社交平台内容有许多风控问题，需要配置自己的账号信息，参考rsshub的[配置文档](https://docs.rsshub.app/zh/deploy/config#route-specific-configurations)
 
+## gitea
 
-### 基建设施
+nginx代理，ssh端口通过222暴露，通过 gitea.selfhost.local 访问，没有特别说明。
+
+## 基建设施
 
 目前基建设施包括
 
@@ -47,7 +52,7 @@ feed总体上包括如下三个部分，使用之前必须配置.env中的 MINIF
 
 3. couchdb 数据库，用于 obsidian 同步数据。
 
-#### garage 对象存储
+### garage 对象存储
 
 使用 garage 之前，哪怕是单节点garage也需要先分配集群布局，否则 garage-ui 中 status 会显示为 unhealthy。可以在 garage-ui 中对节点进行 assign，最后 apply assignment，即可开始使用存储桶。
 
@@ -57,11 +62,11 @@ feed总体上包括如下三个部分，使用之前必须配置.env中的 MINIF
 4. 访问 garage 上的静态部署页面 : http://garage-web.selfhost.local
 
 
-#### postgres
+### postgres
 
 我对 postgres:18 镜像稍做了一些修改，编辑.env中的POSTGRES_DATABASES，值为逗号分隔的数据库名，比如`miniflux,gitea`，每次重启服务都会尝试创建这些数据库。
 
-#### couchdb
+### couchdb
 
 通过本地端口 localhost:5984 直接暴露，不通过 gateway 代理。
 

@@ -2,15 +2,18 @@
 # 使用 docker compose up 启动所有服务
 
 include:
-  # 基础设施服务
+  # infra
   - services/infra/couchdb/compose.yaml
   - services/infra/postgres/compose.yaml
   - services/infra/object-storage/compose.yaml
   - services/gateway/compose.yaml
-  # Feed 业务服务
+  # feed
   - services/feed/rsshub/compose.yaml
   - services/feed/miniflux/compose.yaml
   - services/feed/nextflux/compose.yaml
+
+  # gitea
+  - services/gitea/compose.yaml
 
 # 统一网络配置
 networks:
